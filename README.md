@@ -10,7 +10,7 @@ For using the fine-tuning service, prepare input, output folder in your path.
 
 In input folder, dataset with csv format and input.json should be located.
 
-### Example
+### Example input file for the fine-tuning service
 
 input.json - {"split-ratio":0.8, "task":classification, "time":30}
 
