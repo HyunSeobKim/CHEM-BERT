@@ -2,9 +2,11 @@
 
 Pre-training BERT with molecular data
 
-## Usage
+## Usage for pretraining
 
-After preparing data with SMILES format (e.g. ZINC), run the pretraining.py or double_pretraining.py
+After preparing data with SMILES format (e.g. ZINC) and modify SmilesDataset in data_utils.py, run the pretraining.py or double_pretraining.py.
+
+## Fine-tuning with a pretrained model
 
 For using the fine-tuning service, prepare input, output folder in your path.
 
