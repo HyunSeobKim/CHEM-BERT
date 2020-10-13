@@ -1,10 +1,11 @@
 # MergedBERT
 
-Pre-training BERT with molecular data
+Pre-training BERT with molecular data for merged molecular representation.
 
 ## Usage for pretraining
 
-After preparing data with SMILES format (e.g. ZINC) and modify SmilesDataset in data_utils.py, run the pretraining.py or double_pretraining.py.
+After preparing data with SMILES format (e.g. ZINC) and modifying SmilesDataset in data_utils.py, run the pretraining.py or double_pretraining.py.
+
 
 ## Fine-tuning with a pretrained model
 
