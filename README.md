@@ -1,8 +1,8 @@
 # MergedBERT
 
-Pre-training BERT with molecular data for merged molecular representation.
+Pre-training BERT with molecular data for learning merged molecular representation.
 
-## Usage for pretraining
+## Usage for pre-training
 
 Make directory for saving models.
 
@@ -10,7 +10,7 @@ After preparing data with SMILES format (e.g. ZINC) and modifying SmilesDataset 
 
 `python double_pretraining.py --path {dataset_path} --save_path {model_path} --adjacency True --batch 256 --epoch 20 --seq 256 --layers 6 --nhead 16 --seed 7`
 
-## Fine-tuning with a pretrained model
+## Fine-tuning with a pre-trained model
 
 Download pre-trained model using `git lfs pull`.
 
