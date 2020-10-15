@@ -12,11 +12,11 @@ from torch.utils.data.distributed import DistributedSampler
 from optim_scheduler import ScheduledOptim
 from data_utils import Vocab, SmilesDataset
 from model import Smiles_BERT, Masked_prediction, BERT_base, BERT_double_tasks
-from qed_masked_eval import ADMETDataset
 
 def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--path', help="dataset path", type=str, default = None)
+	parser.add_argument('--save_path', help="trained model path", type=str, default = None)
 	parser.add_argument('--adjacency', help="use adjacency matrix", type=bool, default=False)
 	parser.add_argument('--batch', help="batch size", type=int, default=128)
 	parser.add_argument('--epoch', help="epoch", type=int, default=50)
@@ -43,9 +43,6 @@ def main():
 	print("Dataset loaded")
 
 	train_dataloader = DataLoader(dataset, shuffle=True, batch_size=arg.batch, num_workers=arg.num_workers, pin_memory=True)
-
-	testdataset = ADMETDataset("../eval_data/admet", "CYP1A2_final_data.xls", Smiles_vocab, seq_len=arg.seq, trainType='Training', mat_position=arg.matrix_position)
-	test_dataloader = DataLoader(testdataset, batch_size=arg.batch, num_workers=arg.num_workers)
 
 	model = Smiles_BERT(len(Smiles_vocab), max_len=arg.seq, nhead=arg.nhead, feature_dim=arg.embed_size, feedforward_dim=arg.model_dim, nlayers=arg.layers, adj=arg.adjacency, dropout_rate=arg.drop_rate)
 	value_layer = nn.Linear(arg.embed_size, 1)
@@ -92,12 +89,12 @@ def main():
 				data_iter.write(str(status))
 			if i % 5000 == 0:
 				#print()
-				torch.save(model.module.state_dict(), "../saved_model/temp_model_" + "epoch_" + str(epoch) + "_" + str(i) + "_" + str(round(avg_loss / (i+1),5)))
+				torch.save(model.module.state_dict(), str(arg.save_path) + "/temp_model_" + "epoch_" + str(epoch) + "_" + str(i) + "_" + str(round(avg_loss / (i+1),5)))
 			#hit = output.argmax(dim=-1).eq(data["smiles_bert_label"])
 
 		print("Epoch: ", epoch, "average loss: ", avg_loss/len(data_iter))
 
-		save_path = "../saved_model/" + "nlayers_"+ str(arg.layers) + "_nhead_" + str(arg.nhead) + "_adj_" + str(arg.adjacency) + "_epoch_" + str(epoch) + "_loss_" + str(round(avg_loss/len(data_iter),5))
+		save_path = str(arg.save_path) + "/nlayers_"+ str(arg.layers) + "_nhead_" + str(arg.nhead) + "_adj_" + str(arg.adjacency) + "_epoch_" + str(epoch) + "_loss_" + str(round(avg_loss/len(data_iter),5))
 		torch.save(model.module.bert.state_dict(), save_path+'.pt')
 		model.to(device)
 		print("model saved")
@@ -108,6 +105,7 @@ def main():
 		target_list = np.array([])
 		total_loss = 0
 
+		'''
 		model.eval()
 		test_iter = tqdm.tqdm(enumerate(test_dataloader), total=len(test_dataloader))
 		position_num = torch.arange(arg.seq).repeat(arg.batch,1).to(device)
@@ -144,7 +142,7 @@ def main():
 		#print(predicted_list, target_list)
 		print("Accuracy on testset: ", 100 * correct / total, "MAE on QED:", total_loss / len(test_iter))
 
-
+		'''
 
 if __name__ == "__main__":
 	main()

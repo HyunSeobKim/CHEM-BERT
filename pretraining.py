@@ -16,6 +16,7 @@ from model import Smiles_BERT, Masked_prediction, BERT_base
 def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--path', help="dataset path", type=str, default = None)
+	parser.add_argument('--save_path', help="trained model path", type=str, default = None)
 	parser.add_argument('--adjacency', help="use adjacency matrix", type=bool, default=False)
 	parser.add_argument('--batch', help="batch size", type=int, default=128)
 	parser.add_argument('--epoch', help="epoch", type=int, default=50)
@@ -99,12 +100,12 @@ def main():
 				data_iter.write(str(status))
 			if i % 5000 == 0:
 				#print()
-				torch.save(model.module.state_dict(), "../saved_model/temp_model_" + "epoch_" + str(epoch) + "_" + str(i) + "_" + str(round(avg_loss / (i+1),5)))
+				torch.save(model.module.state_dict(), str(arg.save_path) + "/temp_model_" + "epoch_" + str(epoch) + "_" + str(i) + "_" + str(round(avg_loss / (i+1),5)))
 			#hit = output.argmax(dim=-1).eq(data["smiles_bert_label"])
 
 		print("Epoch: ", epoch, "average loss: ", avg_loss/len(data_iter))
 
-		save_path = "../saved_model/" + "nlayers_"+ str(arg.layers) + "_nhead_" + str(arg.nhead) + "_adj_" + str(arg.adjacency) + "_epoch_" + str(epoch) + "_loss_" + str(round(avg_loss/len(data_iter),5))
+		save_path = str(arg.save_path) + "/nlayers_"+ str(arg.layers) + "_nhead_" + str(arg.nhead) + "_adj_" + str(arg.adjacency) + "_epoch_" + str(epoch) + "_loss_" + str(round(avg_loss/len(data_iter),5))
 		torch.save(model.module.bert.state_dict(), save_path+'.pt')
 		model.to(device)
 		print("model saved")
