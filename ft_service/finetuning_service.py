@@ -143,7 +143,7 @@ class FinetuningDataset(Dataset):
 		return padded
 
 def main():
-	with open('/input/input.json', 'r') as f:
+	with open('input/input.json', 'r') as f:
 		input_file = json.load(f)
 
 	device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -153,7 +153,7 @@ def main():
 
 	Smiles_vocab = Vocab()
 	# read data
-	dataset = FinetuningDataset('/input/dataset.csv', Smiles_vocab, seq_len=256)
+	dataset = FinetuningDataset('input/dataset.csv', Smiles_vocab, seq_len=256)
 
 	indices = list(range(len(dataset)))
 	np.random.shuffle(indices)
@@ -171,7 +171,7 @@ def main():
 
 	#Load model
 	model = Smiles_BERT(len(Smiles_vocab), max_len=256, nhead=16, feature_dim=1024, feedforward_dim=1024, nlayers=8, adj=True, dropout_rate=params['dropout'])
-	model.load_state_dict(torch.load('/model/pretrained_model.pt', map_location=device))
+	model.load_state_dict(torch.load('../model/pretrained_model.pt', map_location=device))
 	output_layer = nn.Linear(1024, 1)
 
 	model = BERT_base(model, output_layer)
@@ -255,7 +255,7 @@ def main():
 
 			#save the model
 			if valid_avg_loss < min_valid_loss:
-				save_path = '/output/derived/Finetuned_model.pt'
+				save_path = 'output/derived/Finetuned_model.pt'
 				torch.save(model.module.state_dict(), save_path)
 				model.to(device)
 				min_valid_loss = valid_avg_loss
@@ -307,13 +307,13 @@ def main():
 	plt.xlabel('epoch')
 	plt.ylabel('loss')
 	plt.title('Loss graph')
-	plt.savefig('/output/derived/loss_graph.png')
+	plt.savefig('output/derived/loss_graph.png')
 
 	output_csv = pd.DataFrame()
 	output_csv['Train_loss'] = train_loss_list
 	output_csv['Valid_loss'] = valid_loss_list
 	output_csv['Valid_score'] = valid_score_list
-	output_csv.to_csv('/output/derived/result.csv')
+	output_csv.to_csv('output/derived/result.csv')
 
 	best_step = np.argmin(valid_loss_list)
 	best_score = test_score_list[best_step]
@@ -335,7 +335,7 @@ def main():
 		plt.ylabel('True Positive Rate')
 		plt.title('Receiver operating characteristic')
 		plt.legend(loc='lower right')
-		plt.savefig('/output/derived/test_score.png')
+		plt.savefig('output/derived/test_score.png')
 
 	else:
 		output_json['metric'] = 'RMSE'
@@ -347,17 +347,19 @@ def main():
 		plt.ylabel('Predicted')
 		plt.title('Scatter Plot')
 		plt.legend(loc='lower right')
-		plt.savefig('/output/derived/test_score.png')
+		plt.savefig('output/derived/test_score.png')
 	output_json['best_score'] = round(best_score,5)
 
-	with open('/output/metadata/dm.json', 'w') as f:
+	with open('output/metadata/dm.json', 'w') as f:
 		json.dump(output_json, f)
 
 if __name__ == "__main__":
-	if os.path.isdir('/output/derived') == False:
-		os.mkdir('/output/derived')
-	if os.path.isdir('/output/metadata') == False:
-		os.mkdir('/output/metadata')
-	if os.path.isdir('/output/log') == False:
-		os.mkdir('/output/log')
+	if os.path.isdir('output') == False:
+		os.mkdir('output')
+	if os.path.isdir('output/derived') == False:
+		os.mkdir('output/derived')
+	if os.path.isdir('output/metadata') == False:
+		os.mkdir('output/metadata')
+	if os.path.isdir('output/log') == False:
+		os.mkdir('output/log')
 	main()
