@@ -14,9 +14,9 @@ After preparing data with SMILES format (e.g. ZINC) and modifying SmilesDataset 
 
 Download pre-trained model using `git lfs pull`.
 
-For using the fine-tuning service, prepare input and output folder in your path.
+For using the fine-tuning service, prepare input and output directory.
 
-In input folder, dataset with csv format and input.json should be located.
+Dataset with csv format and input.json should be located in input directory.
 
 ### Example input file for the fine-tuning service
 
