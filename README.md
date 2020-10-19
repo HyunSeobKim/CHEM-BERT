@@ -4,7 +4,7 @@ Pre-training BERT with molecular data for learning merged molecular representati
 
 ## Usage for pre-training
 
-Make directory for saving models.
+Make a directory for saving models.
 
 After preparing data with SMILES format (e.g. ZINC) and modifying SmilesDataset in data_utils.py, run the pretraining.py or double_pretraining.py.
 
@@ -12,11 +12,11 @@ After preparing data with SMILES format (e.g. ZINC) and modifying SmilesDataset 
 
 ## Fine-tuning with a pre-trained model
 
-Download pre-trained model using `git lfs pull`.
+Download the pre-trained model using `git lfs pull`.
 
-For using the fine-tuning service, prepare input and output directory.
+For using the fine-tuning service, prepare an input and output directory.
 
-Dataset with csv format and input.json should be located in input directory.
+A dataset with CSV format and input.json should be located in the input directory.
 
 ### Example input file for the fine-tuning service
 
