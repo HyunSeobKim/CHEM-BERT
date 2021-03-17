@@ -2,6 +2,8 @@
 
 Pre-training BERT with molecular data for learning merged molecular representation.
 
+Demo Video: https://youtu.be/efDLkbdXvRg
+
 ## Usage for pre-training
 
 Make a directory for saving models.
