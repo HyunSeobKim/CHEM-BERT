@@ -1,4 +1,4 @@
-# MergedBERT
+# A Merged Molecular Representation Learning
 
 Pre-training BERT with molecular data for learning merged molecular representation.
 
