@@ -14,7 +14,7 @@ After preparing data with SMILES format (e.g. ZINC) and modifying SmilesDataset 
 
 ## Fine-tuning with a pre-trained model
 
-Download the pre-trained model using `git lfs pull` or [here]https://drive.google.com/file/d/1-8oAIwKowGy89w-ZjvCGSc1jsCWNS1Fw/view?usp=sharing.
+Download the pre-trained model using `git lfs pull` or [here](https://drive.google.com/file/d/1-8oAIwKowGy89w-ZjvCGSc1jsCWNS1Fw/view?usp=sharing).
 
 For using the fine-tuning service, prepare an input and output directory.
 
