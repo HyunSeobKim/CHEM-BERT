@@ -256,7 +256,7 @@ def main():
 			#save the model
 			if valid_avg_loss < min_valid_loss:
 				save_path = 'output/derived/Finetuned_model.pt'
-				torch.save(model.module.state_dict(), save_path)
+				torch.save(model.state_dict(), save_path)
 				model.to(device)
 				min_valid_loss = valid_avg_loss
 
